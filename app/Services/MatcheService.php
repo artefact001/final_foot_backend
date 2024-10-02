@@ -82,7 +82,7 @@ class MatcheService
     // Méthode pour récupérer l'historique des matchs
     public function getHistoricalMatches()
     {
-        return Matche::with(['equipe_local', 'equipe_visiteur', 'competition'])->orderBy('date', 'desc')->get();
+        return Matche::with(['equipe_local', 'equipe_visiteur', 'competition_id'])->orderBy('date', 'desc')->get();
     }
 
 }

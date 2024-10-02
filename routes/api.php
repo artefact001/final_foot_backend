@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\EquipeController;
@@ -31,8 +32,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('users', [UserController::class, 'store']);
     Route::put('users/{id}', [UserController::class, 'update']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
-    // Route pour la déconnexion (nécessite également d'être authentifié)
-    // Route::post('logout', [AuthController::class, 'logout']);
+
 });
 // Routes protégées par les middlewares d'authentification et de rôle
 Route::middleware(['auth:api', 'role:Zone'])->group(function () {
@@ -44,9 +44,10 @@ Route::middleware(['auth:api', 'role:Zone'])->group(function () {
     Route::delete('competitions/{id}', [CompetitionController::class, 'destroy']);
 });
 
-// Routes ouvertes (sans authentification)
-// Route::post('register', [AuthController::class, 'register']);
-// Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
+Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
 
 Route::apiResource('joueurs', JoueurController::class);
 
@@ -68,8 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
 // Route pour récupérer les notifications
 Route::middleware('auth:sanctum')->get('notifications', [NotificationController::class, 'index']);
 
-
-
 Route::prefix('resultats')->group(function () {
     Route::post('/', [ResultatController::class, 'store']); // Enregistrer un résultat
     Route::get('/matche/{matcheId}', [ResultatController::class, 'show']); // Afficher les résultats d'un match
@@ -77,11 +76,8 @@ Route::prefix('resultats')->group(function () {
 });
 
 
-
 Route::get('rankings', [PointController::class, 'rankings']);
 Route::get('teams/{equipeId}/points', [PointController::class, 'teamPoints']);
-
-
 
 
 // Route pour récupérer le classement global
@@ -89,7 +85,6 @@ Route::get('classement', [ClassementController::class, 'getGlobalRankings']);
 
 // Route pour récupérer le classement d'une équipe spécifique
 Route::get('classement/equipe/{equipeId}', [ClassementController::class, 'getTeamRank']);
-
 
 
 // Route pour créer un calendrier
@@ -108,16 +103,12 @@ Route::get('calendriers', [CalendrierController::class, 'getAll']);
 Route::get('calendriers/match/{matchId}', [CalendrierController::class, 'getByMatch']);
 
 
-
 // Route pour afficher la vue du tableau de bord
 Route::get('dashboard', [DashboardViewController::class, 'index']);
 
 
-
-
 // Route pour afficher les statistiques du tableau de bord
 Route::get('dashboard/stats', [DashboardController::class, 'getStats']);
-
 
 
 Route::prefix('classements')->group(function () {
@@ -126,14 +117,9 @@ Route::prefix('classements')->group(function () {
 });
 
 
-
-
-
 // Routes pour l'historique des matchs
 Route::get('/matches', [MatcheController::class, 'index'])->name('matches.index');
 Route::post('/matches', [MatcheController::class, 'store'])->name('matches.store');
-
-
 
 
 
@@ -145,8 +131,6 @@ Route::put('notifications/{id}/read', [NotificationController::class, 'markAsRea
 
 // Route pour marquer toutes les notifications comme lues
 Route::put('notifications/read-all', [NotificationController::class, 'markAllAsRead']);
-
-
 
 
 
