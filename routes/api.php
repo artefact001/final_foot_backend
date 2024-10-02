@@ -19,6 +19,8 @@ use App\Http\Controllers\CalendrierController;
 use App\Http\Controllers\DashboardViewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StatistiqueController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentaireController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -48,6 +50,23 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
 Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+
+
+Route::middleware('auth:api')->group(function () {
+    // Routes pour les articles
+    Route::get('articles', [ArticleController::class, 'index']);
+    Route::post('articles', [ArticleController::class, 'store']);
+    Route::get('articles/{id}', [ArticleController::class, 'show']);
+    Route::put('articles/{id}', [ArticleController::class, 'update']);
+    Route::delete('articles/{id}', [ArticleController::class, 'destroy']);
+
+    // Routes pour les commentaires
+    Route::post('articles/{articleId}/commentaires', [CommentaireController::class, 'store']);
+    Route::delete('commentaires/{id}', [CommentaireController::class, 'destroy']);
+});
+
+
+
 
 Route::apiResource('joueurs', JoueurController::class);
 
