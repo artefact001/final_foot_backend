@@ -21,6 +21,8 @@ class CreateMatchesTable extends Migration
             $table->integer('score_local')->nullable();  // Score de l'équipe locale
             $table->integer('score_visiteur')->nullable();  // Score de l'équipe visiteuse
             $table->dateTime('date_matche');  // Date et heure du match
+            $table->string('statut')->default('terminé'); // état du match
+
             $table->timestamps();  // Champs pour enregistrer les dates de création et de mise à jour
 
             // Clé étrangère vers la table des compétitions
@@ -38,3 +40,7 @@ class CreateMatchesTable extends Migration
         Schema::dropIfExists('matches');
     }
 }
+
+
+
+

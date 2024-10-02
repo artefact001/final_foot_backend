@@ -27,7 +27,9 @@ class Matche extends Model
         'equipe_visiteur',
         'score_local',
         'score_visiteur',
-        'date_matche'
+        'date_matche',
+        'statut', // par exemple : "terminé", "en cours"
+
     ];
 
     /**
@@ -40,3 +42,7 @@ class Matche extends Model
         return $this->belongsTo(Competition::class);
     }
 }
+
+
+
+

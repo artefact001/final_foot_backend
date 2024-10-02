@@ -11,6 +11,13 @@ use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\TirageController;
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ResultatController;
+use App\Http\Controllers\ClassementController;
+use App\Http\Controllers\PointController;
+use App\Http\Controllers\CalendrierController;
+use App\Http\Controllers\DashboardViewController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StatistiqueController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -60,3 +67,102 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Route pour récupérer les notifications
 Route::middleware('auth:sanctum')->get('notifications', [NotificationController::class, 'index']);
+
+
+
+Route::prefix('resultats')->group(function () {
+    Route::post('/', [ResultatController::class, 'store']); // Enregistrer un résultat
+    Route::get('/matche/{matcheId}', [ResultatController::class, 'show']); // Afficher les résultats d'un match
+    Route::post('/matche/{matcheId}/winner', [ResultatController::class, 'determineWinner']); // Déterminer le gagnant
+});
+
+
+
+Route::get('rankings', [PointController::class, 'rankings']);
+Route::get('teams/{equipeId}/points', [PointController::class, 'teamPoints']);
+
+
+
+
+// Route pour récupérer le classement global
+Route::get('classement', [ClassementController::class, 'getGlobalRankings']);
+
+// Route pour récupérer le classement d'une équipe spécifique
+Route::get('classement/equipe/{equipeId}', [ClassementController::class, 'getTeamRank']);
+
+
+
+// Route pour créer un calendrier
+Route::post('calendriers', [CalendrierController::class, 'create']);
+
+// Route pour mettre à jour un calendrier
+Route::put('calendriers/{calendrier}', [CalendrierController::class, 'update']);
+
+// Route pour supprimer un calendrier
+Route::delete('calendriers/{calendrier}', [CalendrierController::class, 'delete']);
+
+// Route pour récupérer tous les calendriers
+Route::get('calendriers', [CalendrierController::class, 'getAll']);
+
+// Route pour récupérer les calendriers d'un match spécifique
+Route::get('calendriers/match/{matchId}', [CalendrierController::class, 'getByMatch']);
+
+
+
+// Route pour afficher la vue du tableau de bord
+Route::get('dashboard', [DashboardViewController::class, 'index']);
+
+
+
+
+// Route pour afficher les statistiques du tableau de bord
+Route::get('dashboard/stats', [DashboardController::class, 'getStats']);
+
+
+
+Route::prefix('classements')->group(function () {
+    // Route pour récupérer le classement des équipes
+    Route::get('/', [ClassementController::class, 'index'])->name('classements.index');
+});
+
+
+
+
+
+// Routes pour l'historique des matchs
+Route::get('/matches', [MatcheController::class, 'index'])->name('matches.index');
+Route::post('/matches', [MatcheController::class, 'store'])->name('matches.store');
+
+
+
+
+
+// Route pour obtenir les notifications d'un utilisateur
+Route::get('notifications', [NotificationController::class, 'index']);
+
+// Route pour marquer une notification comme lue
+Route::put('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+
+// Route pour marquer toutes les notifications comme lues
+Route::put('notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+
+
+
+
+
+Route::prefix('statistiques')->group(function () {
+    // Route pour créer une nouvelle statistique
+    Route::post('/', [StatistiqueController::class, 'store'])->name('statistiques.store');
+
+    // Route pour récupérer toutes les statistiques
+    Route::get('/', [StatistiqueController::class, 'index'])->name('statistiques.index');
+
+    // Route pour récupérer les statistiques d'un joueur spécifique
+    Route::get('/joueur/{joueurId}', [StatistiqueController::class, 'showByJoueur'])->name('statistiques.showByJoueur');
+
+    // Route pour mettre à jour une statistique
+    Route::put('/{id}', [StatistiqueController::class, 'update'])->name('statistiques.update');
+
+    // Route pour supprimer une statistique
+    Route::delete('/{id}', [StatistiqueController::class, 'destroy'])->name('statistiques.destroy');
+});
