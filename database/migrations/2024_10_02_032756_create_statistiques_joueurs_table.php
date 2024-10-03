@@ -18,7 +18,7 @@ class CreateStatistiquesJoueursTable extends Migration
             $table->unsignedBigInteger('joueur_id');  // Clé étrangère vers la table des joueurs
             $table->unsignedBigInteger('matche_id');  // Clé étrangère vers la table des matchs
             $table->integer('buts')->default(0);  // Nombre de buts marqués
-            $table->integer('passes_decisives')->default(0);  // Nombre de passes décisives
+            $table->integer('passeurs')->default(0);  // Nombre de passes décisives
             $table->integer('cartons_jaunes')->default(0);  // Nombre de cartons jaunes reçus
             $table->integer('cartons_rouges')->default(0);  // Nombre de cartons rouges reçus
             $table->integer('minutes_jouees')->default(0);  // Nombre de minutes jouées

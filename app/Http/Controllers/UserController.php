@@ -16,21 +16,21 @@ class UserController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'motDePasse' => 'required|string|min:6',
+            'password' => 'required|string|min:6',
             'role' => 'required|string'
         ]);
 
         $user = User::create([
             'nom' => $request->nom,
             'email' => $request->email,
-            'password' => Hash::make($request->motDePasse),
+            'password' => Hash::make($request->password),
         ]);
 
         $role = Role::findOrCreate($request->role);
         $user->assignRole($role);
 
         // Envoyer un e-mail avec les identifiants
-        $user->notify(new UserCreatedNotification($user->email, $request->motDePasse));
+        $user->notify(new UserCreatedNotification($user->email, $request->password));
 
         return response()->json(['message' => 'User created successfully', 'user' => $user]);
     }

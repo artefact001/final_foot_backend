@@ -14,6 +14,8 @@ class Resultat extends Model
         'equipe_id',
         'score',
         'is_winner',
+        'cartons_jaunes',
+        'cartons_rouges',
         'buteurs',
         'passeurs',
         'homme_du_match',
@@ -56,5 +58,11 @@ class Resultat extends Model
     public function setPasseursAttribute($value)
     {
         $this->attributes['passeurs'] = json_encode($value);
+    }
+    
+     // Relation avec le joueur
+    public function joueur()
+    {
+        return $this->belongsTo(Joueur::class);
     }
 }

@@ -15,7 +15,7 @@ class CreateStatistiquesTable extends Migration
             $table->foreignId('equipe_id')->constrained()->onDelete('cascade'); // Lien avec l'équipe
             // $table->integer('minutes_jouees')->default(0); // Minutes jouées
             $table->integer('buts')->default(0); // Nombre de buts
-            $table->integer('passes_decisives')->default(0); // Passes décisives
+            $table->integer('passeurs')->default(0); // Passes décisives
             // $table->integer('tirs')->default(0); // Tirs
             // $table->integer('dribbles_reussis')->default(0); // Dribbles réussis
             // $table->integer('interceptions')->default(0); // Interceptions

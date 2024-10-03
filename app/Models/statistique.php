@@ -18,7 +18,7 @@ class Statistique extends Model
         'equipe_id',
         // 'minutes_jouees',
         'buts',
-        'passes_decisives',
+        'passeurs',
         // 'tirs',
         // 'dribbles_reussis',
         // 'interceptions',

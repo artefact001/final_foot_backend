@@ -20,7 +20,7 @@ class StatistiqueRequest extends FormRequest
             'equipe_id' => 'required|exists:equipes,id',
             // 'minutes_jouees' => 'required|integer|min:0',
             'buts' => 'required|integer|min:0',
-            'passes_decisives' => 'required|integer|min:0',
+            'passeurs' => 'required|integer|min:0',
             // 'tirs' => 'required|integer|min:0',
             // 'dribbles_reussis' => 'required|integer|min:0',
             // 'interceptions' => 'required|integer|min:0',
