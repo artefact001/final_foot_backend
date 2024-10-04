@@ -20,7 +20,9 @@ class Equipe extends Model
     protected $fillable = [
         'nom',
         'ville',
-        'stade'
+        'stade',
+        'zone_id'
+
     ];
 
     // Si tu as des relations avec d'autres modèles, tu peux les définir ici
@@ -29,4 +31,12 @@ class Equipe extends Model
     {
         return $this->hasMany(Joueur::class); // Relation 1:N avec le modèle Joueur
     }
+
+    public function competitions()
+    {
+        return $this->belongsTo(Competitions::class);
+    }
+
 }
+
+

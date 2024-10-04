@@ -27,7 +27,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 // Routes protégées par le middleware d'authentification
-Route::middleware('auth:api')->group(function () {
+// Route::middleware('auth:api')->group(function () {
     // Routes pour la gestion des utilisateurs
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{id}', [UserController::class, 'show']);
@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('users/{id}', [UserController::class, 'update']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
 
-});
+
 // Routes protégées par les middlewares d'authentification et de rôle
 Route::middleware(['auth:api', 'role:Zone'])->group(function () {
     // Routes pour la gestion des compétitions

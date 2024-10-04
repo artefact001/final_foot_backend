@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements JWTSubject
 {
     use HasRoles; // Pour Spatie
+    protected $guarded = [];
     // Implement JWT methods
     public function getJWTIdentifier()
     {

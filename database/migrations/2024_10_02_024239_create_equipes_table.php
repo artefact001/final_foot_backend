@@ -19,7 +19,13 @@ class CreateEquipesTable extends Migration
             $table->string('nom');  // Nom de l'équipe
             $table->string('ville');  // Ville de l'équipe
             $table->string('stade')->nullable();  // Stade de l'équipe, optionnel
+            $table->unsignedBigInteger('zone_id'); // Référence à la Zone
             $table->timestamps();  // Champs pour enregistrer les dates de création et de mise à jour
+
+
+
+                   // Clé étrangère pour la Zone
+            $table->foreign('zone_id')->references('id')->on('zone')->onDelete('cascade');
         });
     }
 

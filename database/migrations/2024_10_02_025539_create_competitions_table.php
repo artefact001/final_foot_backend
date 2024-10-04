@@ -17,9 +17,16 @@ class CreateCompetitionsTable extends Migration
             $table->id();  // Identifiant unique pour chaque compétition
             $table->string('nom');  // Nom de la compétition
             $table->string('lieu');  // Lieu de la compétition
+            $table->unsignedBigInteger('zone_id'); // Référence à la Zone
             $table->date('date_debut');  // Date de début de la compétition
             $table->date('date_fin');  // Date de fin de la compétition
             $table->timestamps();  // Champs pour enregistrer les dates de création et de mise à jour
+
+
+
+
+            // Clé étrangère pour la Zone
+            $table->foreign('zone_id')->references('id')->on('zone')->onDelete('cascade');
         });
     }
 
